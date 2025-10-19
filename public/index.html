@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mediasoup Video Conference</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1>🎥 mediasoup Video Conference</h1>
+      <div class="connection-status" id="connectionStatus">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Disconnected</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Join Room Section -->
+      <div class="join-section" id="joinSection">
+        <div class="join-card">
+          <h2>Join a Room</h2>
+          <p class="subtitle">Enter a room name to join or create a new video conference</p>
+          
+          <div class="form-group">
+            <label for="roomIdInput">Room Name</label>
+            <input 
+              type="text" 
+              id="roomIdInput" 
+              placeholder="Enter room name (e.g., meeting-room-1)" 
+              autocomplete="off"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="displayNameInput">Your Name (Optional)</label>
+            <input 
+              type="text" 
+              id="displayNameInput" 
+              placeholder="Enter your name" 
+              autocomplete="off"
+            >
+          </div>
+          
+          <button class="btn btn-primary" id="joinBtn">
+            Join Room
+          </button>
+          
+          <div class="quick-join">
+            <p>Quick join:</p>
+            <button class="btn btn-secondary btn-small" onclick="quickJoin('room1')">Room 1</button>
+            <button class="btn btn-secondary btn-small" onclick="quickJoin('room2')">Room 2</button>
+            <button class="btn btn-secondary btn-small" onclick="quickJoin('demo')">Demo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Conference Section -->
+      <div class="conference-section" id="conferenceSection" style="display: none;">
+        
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+          <div class="room-info">
+            <span class="room-label">Room:</span>
+            <span class="room-name" id="currentRoomName"></span>
+            <span class="peer-count" id="peerCount">1 participant</span>
+          </div>
+          
+          <div class="media-controls">
+            <button class="control-btn" id="toggleVideoBtn" title="Toggle Video">
+              <span class="icon">📹</span>
+              <span class="label">Video On</span>
+            </button>
+            
+            <button class="control-btn" id="toggleAudioBtn" title="Toggle Audio">
+              <span class="icon">🎤</span>
+              <span class="label">Audio On</span>
+            </button>
+            
+            <button class="control-btn btn-danger" id="leaveRoomBtn" title="Leave Room">
+              <span class="icon">📞</span>
+              <span class="label">Leave</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Video Grid -->
+        <div class="video-grid" id="videoGrid">
+          <!-- Local Video (Your camera) -->
+          <div class="video-container local-video" id="localVideoContainer">
+            <video id="localVideo" autoplay muted playsinline></video>
+            <div class="video-overlay">
+              <span class="participant-name">You</span>
+              <span class="video-status" id="localVideoStatus"></span>
+            </div>
+          </div>
+          
+          <!-- Remote videos will be added here dynamically -->
+        </div>
+
+        <!-- Debug Info (Hidden by default) -->
+        <div class="debug-section" id="debugSection" style="display: none;">
+          <h3>Debug Information</h3>
+          <pre id="debugInfo"></pre>
+        </div>
+      </div>
+
+      <!-- Info Section -->
+      <div class="info-section">
+        <h3>How to Use</h3>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-icon">1️⃣</div>
+            <h4>Enter Room Name</h4>
+            <p>Type any room name or use quick join buttons</p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">2️⃣</div>
+            <h4>Allow Permissions</h4>
+            <p>Grant camera and microphone access when prompted</p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">3️⃣</div>
+            <h4>Share the Room</h4>
+            <p>Share the room name with others to join the call</p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">4️⃣</div>
+            <h4>Start Conference</h4>
+            <p>Use controls to manage your video and audio</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>Powered by <strong>mediasoup</strong> SFU | WebRTC Video Conference POC</p>
+      <button class="btn btn-small" id="toggleDebugBtn">Toggle Debug</button>
+    </div>
+  </footer>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <p id="loadingText">Connecting...</p>
+  </div>
+
+  <!-- Client-side JavaScript (bundled) -->
+  <script src="bundle.js"></script>
+</body>
+</html>
+
